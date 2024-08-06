@@ -8,10 +8,10 @@ from langchain.vectorstores import FAISS
 from flask_cors import CORS
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
-
+from dotenv import load_dotenv
 app = Flask(__name__)
 CORS(app)
-
+load_dotenv()
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
 
