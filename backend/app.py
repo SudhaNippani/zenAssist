@@ -26,17 +26,18 @@ docsearch = None
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
-
+prefixUrl = "/api"
 @app.route('/')
 def index():
     return "Welcome to the Flask server!"
 
-@app.route('/api/upload', methods=['POST'])
+@app.route(f'{prefixUrl}/upload', methods=['POST'])
 def upload_files():
     if 'files' not in request.files:
         return jsonify({'error': 'No files part'}), 400
 
     files = request.files.getlist('files')
+    print(f"upload file {files}")
     if not files:
         return jsonify({'error': 'No selected files'}), 400
 
@@ -45,6 +46,10 @@ def upload_files():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print()
+            print()
+            print(f"fil_path, {file_path}")
+            print(f'===== file_path {file_path} file name = {filename}')
             file.save(file_path)
 
             uploaded_files.append(filename)
@@ -54,11 +59,12 @@ def upload_files():
 
     return jsonify({'message': 'All files uploaded successfully!'}), 200
 
-@app.route('/api/delete', methods=['POST'])
+@app.route(f'{prefixUrl}/delete', methods=['POST'])
 def delete_file():
     data = request.json
     filename = data.get('fileName')
-
+    filename = secure_filename(filename)
+    print(f"data ====== {data}")
     if not filename or filename not in uploaded_files:
         return jsonify({'error': 'File not found'}), 400
 
@@ -71,11 +77,11 @@ def delete_file():
     else:
         return jsonify({'error': 'File not found on server'}), 400
 
-@app.route('/api/uploaded_files', methods=['GET'])
+@app.route(f'{prefixUrl}/uploaded_files', methods=['GET'])
 def get_uploaded_files():
     return jsonify({'uploaded_files': uploaded_files}), 200
 
-@app.route('/api/train', methods=['POST'])
+@app.route(f'{prefixUrl}/train', methods=['POST'])
 def train_model():
     retrain_model()
     return jsonify({'message': 'Model trained successfully!'}), 200
@@ -126,7 +132,7 @@ def retrain_model():
     docsearch = FAISS.from_texts(all_texts, embeddings)
 
 
-@app.route('/api/ask', methods=['POST'])
+@app.route(f'{prefixUrl}/ask', methods=['POST'])
 def ask_question():
     data = request.json
     query = data.get('question')
