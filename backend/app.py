@@ -18,7 +18,6 @@ app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
-# os.environ["OPENAI_API_KEY"] = "sk-proj-NUnyoilcJQ3TmUiaID0zT3BlbkFJpCwVD2Y0IkNUgQDLvyEH"
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 docsearches = {}
