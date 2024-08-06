@@ -154,7 +154,7 @@ function Chat() {
     setMessages([...messages, { text: question, isQuestion: true }]);
   
     try {
-      const previousMessages = messages.slice(-6).map((msg) => ({
+      const previousMessages = messages.slice(-16).map((msg) => ({
         text: msg.text,
         isQuestion: msg.isQuestion,
       }));

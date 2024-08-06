@@ -141,7 +141,18 @@ def ask_question():
     if not query:
         return jsonify({'error': 'No question provided'}), 400
 
-    combined_context = "\n".join([f"{msg['text']}" for msg in context]) + f"\n{query}"
+    # Format the context according to the specified logic
+    formatted_context = []
+    for msg in context:
+        if msg['isQuestion']:
+            formatted_context.append(f"I asked {msg['text']}")
+        else:
+            formatted_context.append(f"You answered {msg['text']}")
+    
+    # Add the final query with the "Now please answer" format
+    combined_context = "\n".join(formatted_context) + f"\nNow please answer {query}"
+    query = combined_context
+    print(query)
 
     if not (docsearch):
         return jsonify({'error': 'No documents uploaded'}), 400
@@ -157,6 +168,7 @@ def ask_question():
         return jsonify({'answer': answer}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
     
