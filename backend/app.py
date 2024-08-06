@@ -31,7 +31,7 @@ def allowed_file(filename):
 def index():
     return "Welcome to the Flask server!"
 
-@app.route('/upload', methods=['POST'])
+@app.route('/api/upload', methods=['POST'])
 def upload_files():
     if 'files' not in request.files:
         return jsonify({'error': 'No files part'}), 400
@@ -54,7 +54,7 @@ def upload_files():
 
     return jsonify({'message': 'All files uploaded successfully!'}), 200
 
-@app.route('/delete', methods=['POST'])
+@app.route('/api/delete', methods=['POST'])
 def delete_file():
     data = request.json
     filename = data.get('fileName')
@@ -71,11 +71,11 @@ def delete_file():
     else:
         return jsonify({'error': 'File not found on server'}), 400
 
-@app.route('/uploaded_files', methods=['GET'])
+@app.route('/api/uploaded_files', methods=['GET'])
 def get_uploaded_files():
     return jsonify({'uploaded_files': uploaded_files}), 200
 
-@app.route('/train', methods=['POST'])
+@app.route('/api/train', methods=['POST'])
 def train_model():
     retrain_model()
     return jsonify({'message': 'Model trained successfully!'}), 200
@@ -126,7 +126,7 @@ def retrain_model():
     docsearch = FAISS.from_texts(all_texts, embeddings)
 
 
-@app.route('/ask', methods=['POST'])
+@app.route('/api/ask', methods=['POST'])
 def ask_question():
     data = request.json
     query = data.get('question')
