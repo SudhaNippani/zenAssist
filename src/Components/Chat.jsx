@@ -51,9 +51,12 @@ const initialGreeting = "Hi, hope you’re having a good day, how can I assist y
 function Chat() {
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState([]);
-
+  const [userBotName,setUserBotName] = useState("")
+  const defaultBotName = "ZenAssist";
   useEffect(() => {
     const storedMessages = localStorage.getItem('chatMessages');
+    const savedBotName = localStorage.getItem("botName");
+    if (savedBotName) setUserBotName(savedBotName);
     if (storedMessages) {
       const parsedMessages = JSON.parse(storedMessages);
       if (parsedMessages.length > 0) {
@@ -212,9 +215,12 @@ function Chat() {
 
   return (
     <Box>
-      <Header variant="h4" gutterBottom>
-        Chat with FAQ Bot
-      </Header>
+        {userBotName && <Header variant="h4" gutterBottom>
+        Chat with {userBotName}
+      </Header>}
+      {!userBotName && <Header variant="h4" gutterBottom>
+        Chat with {defaultBotName}
+      </Header>}
       <ChatContainer>
         <MessagesWrapper>
           {messages.map((message, index) => (
