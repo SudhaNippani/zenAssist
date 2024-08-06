@@ -159,7 +159,7 @@ function Chat() {
         isQuestion: msg.isQuestion,
       }));
   
-      const response = await fetch('http://localhost:5000/ask', {
+      const response = await fetch('${BASE_URL}/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

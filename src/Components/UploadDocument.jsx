@@ -29,7 +29,7 @@ function UploadDocument() {
   useEffect(() => {
     const fetchUploadedFiles = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/uploaded_files");
+        const response = await axios.get("${BASE_URL}/uploaded_files");
         if (response.status === 200) {
           setUploadedFiles(response.data.uploaded_files);
         }
@@ -56,7 +56,7 @@ function UploadDocument() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/upload",
+        "${BASE_URL}/upload",
         formData,
         {
           headers: {
@@ -83,7 +83,7 @@ function UploadDocument() {
 
   const handleFileDelete = async (fileName) => {
     try {
-      const response = await axios.post("http://localhost:5000/delete", {
+      const response = await axios.post("${BASE_URL}/delete", {
         fileName,
       });
 
@@ -105,7 +105,7 @@ function UploadDocument() {
     setUploading(true);
     setStatusMessage("Training the model...");
     try {
-      const response = await axios.post("http://localhost:5000/train");
+      const response = await axios.post("${BASE_URL}/train");
       if (response.status === 200) {
         setStatusMessage("Model trained successfully!");
             // Reset chat messages in local storage
