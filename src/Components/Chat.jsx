@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, TextField, Typography, Paper, IconButton } from '@mui/material';
 import { styled } from '@mui/system';
 import { Send } from '@mui/icons-material';
-
+import { BASE_URL } from '../config/Constants'; 
 const ChatContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
@@ -159,7 +159,7 @@ function Chat() {
         isQuestion: msg.isQuestion,
       }));
   
-      const response = await fetch('http://localhost:5000/ask', {
+      const response = await fetch(`${BASE_URL}/ask`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
